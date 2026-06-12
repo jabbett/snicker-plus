@@ -142,6 +142,33 @@
 }
 /* @end Admin Navigation */
 
+/* @start Admin Configuration */
+.snicker-settings-form .form-group.row {
+    margin-bottom: 1rem;
+}
+
+.snicker-settings-form .form-control,
+.snicker-settings-form .custom-select {
+    width: 100%;
+    max-width: none;
+}
+
+.snicker-settings-form .form-control,
+.snicker-settings-form .custom-select:not(.custom-select-sm) {
+    min-height: calc(1.5em + .75rem + 2px);
+}
+
+.snicker-settings-form .snicker-select-inline {
+    width: auto;
+    max-width: 100%;
+    vertical-align: top;
+}
+
+.snicker-config-actions {
+    border-bottom: 1px solid transparent;
+}
+/* @end Admin Configuration */
+
 /* @start Admin Pagination */
 .snicker-btn-group-pagination .snicker-btn {
     width: 34px;
