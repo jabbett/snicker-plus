@@ -174,10 +174,10 @@ class CommentsUsers extends dbJSON
         if ($search !== null) {
             $list = array();
             foreach ($this->db as $uuid => $fields) {
-                if (stripos($fields["username"], $search) === false) {
-                    continue;
-                }
-                if (stripos($fields["email"], $search) === false) {
+                if (
+                    stripos($fields["username"], $search) === false &&
+                    stripos($fields["email"], $search) === false
+                ) {
                     continue;
                 }
                 $list[$uuid] = $fields;

@@ -25,31 +25,35 @@ $strings = array(
     "approved" => sn__("Approved"),
     "rejected" => sn__("Rejected"),
     "spam" => sn__("Spam"),
-    "search" => sn__("Search Comments"),
     "single" => sn__("Single Comment"),
     "uuid" => sn__("Page Comments"),
-    "user" => sn__("User Comments")
+    "user" => sn__("User Comments"),
+    "users" => sn__("Users"),
+    "configure" => sn__("Configuration")
 );
 
 // Current Tab
 $view = "index";
-if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "uuid", "user"))) {
+$commentTabs = array("pending", "approved", "rejected", "spam");
+$adminTabs = array("users", "configure");
+$tabs = $commentTabs;
+$current = isset($_GET["tab"]) ? $_GET["tab"] : "pending";
+if (!in_array($current, array_merge($commentTabs, $adminTabs))) {
+    $current = "pending";
+}
+if (isset($_GET["view"]) && in_array($_GET["view"], array("single", "uuid", "user"))) {
     $view = $current = $_GET["view"];
-    $tabs = array($view);
-} else {
-    $current = isset($_GET["tab"]) ? $_GET["tab"] : "pending";
-    $tabs = array("pending", "approved", "rejected", "spam");
 }
 ?>
 <h2 class="mt-0 mb-3">
-    <span class="oi oi-comment-square" style="font-size: 0.7em;"></span> Snicker <?php sn_e("Comments"); ?>
+    <span class="fa fa-comments-o" style="font-size: 0.7em;"></span> Snicker <?php sn_e("Comments"); ?>
 </h2>
 
-<ul class="nav nav-pills" data-handle="tabs">
+<ul class="nav nav-tabs" role="tablist">
     <?php foreach ($tabs as $tab) { ?>
         <?php $class = "nav-link nav-{$tab}" . ($current === $tab ? " active" : ""); ?>
         <li class="nav-item">
-            <a id="<?php echo $tab; ?>-tab" href="#snicker-<?php echo $tab; ?>" class="<?php echo $class; ?>" data-toggle="tab">
+            <a id="<?php echo $tab; ?>-tab" href="<?php echo DOMAIN_ADMIN; ?>snicker?tab=<?php echo $tab; ?>" class="<?php echo $class; ?>" role="tab">
                 <?php
                 echo $strings[$tab];
                 if ($tab === "pending" && !empty($count)) {
@@ -63,16 +67,14 @@ if (isset($_GET["view"]) && in_array($_GET["view"], array("search", "single", "u
         </li>
     <?php } ?>
 
-    <li class="nav-item flex-grow-1"></li>
-
-    <li class="nav-item mr-2">
-        <a id="users-tab" href="#snicker-users" class="nav-link nav-config" data-toggle="tab">
-            <span class="oi oi-people"></span> <?php sn_e("Users"); ?>
+    <li class="nav-item">
+        <a id="users-tab" href="<?php echo DOMAIN_ADMIN; ?>snicker?tab=users" class="nav-link nav-users<?php echo ($current === "users") ? " active" : ""; ?>" role="tab">
+            <span class="fa fa-users"></span><?php sn_e("Users"); ?>
         </a>
     </li>
     <li class="nav-item">
-        <a id="configure-tab" href="#snicker-configure" class="nav-link nav-config" data-toggle="tab">
-            <span class="oi oi-cog"></span> <?php sn_e("Configuration"); ?>
+        <a id="configure-tab" href="<?php echo DOMAIN_ADMIN; ?>snicker?tab=configure" class="nav-link nav-config<?php echo ($current === "configure") ? " active" : ""; ?>" role="tab">
+            <span class="fa fa-gear"></span><?php sn_e("Configuration"); ?>
         </a>
     </li>
 </ul>

@@ -18,8 +18,8 @@ global $L, $login, $pages, $security, $Snicker, $SnickerPlugin;
 $static = $pages->getStaticDB(false);
 
 ?>
-<div id="snicker-configure" class="tab-pane">
-    <form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker#configure">
+<div id="snicker-configure" class="tab-pane <?php echo (isset($current) && $current === "configure") ? "show active" : ""; ?>" role="tabpanel">
+    <form method="post" action="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker?tab=configure">
         <div class="card shadow-sm" style="margin: 1.5rem 0;">
             <div class="card-body">
                 <div class="row">

@@ -19,6 +19,47 @@
 }
 /* @end GENERAL */
 
+/* @start Admin Search */
+.snicker-search-row {
+    --snicker-search-control-size: 3.25rem;
+}
+
+.snicker-search-row .snicker-search-control {
+    min-width: 320px;
+    height: var(--snicker-search-control-size) !important;
+    min-height: var(--snicker-search-control-size);
+    box-sizing: border-box;
+}
+
+.snicker-search-row .snicker-search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--snicker-search-control-size);
+    height: var(--snicker-search-control-size) !important;
+    min-height: var(--snicker-search-control-size);
+    padding: 0 !important;
+    line-height: 1;
+    box-sizing: border-box;
+}
+
+.snicker-search-row .snicker-search-button .fa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    margin-right: 0 !important;
+    line-height: 1;
+}
+/* @end Admin Search */
+
+/* @start Admin Tables */
+.tab-content .contentTools a {
+    white-space: nowrap;
+}
+/* @end Admin Tables */
+
 /* @start Admin Navigation */
 .nav.nav-pills .snicker-nav-link {
     color: #343a40;

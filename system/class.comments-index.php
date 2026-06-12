@@ -351,13 +351,17 @@ class CommentsIndex extends dbJSON
      |  @param  string  The string to be searched.
      |  @param  int     The current comment page number, starting with 1.
      |  @param  int     The number of comments to be shown per page.
+     |  @param  string  Optional status to limit the search.
      |
      |  @return array   The respective unique comment IDs as ARRAY, FALSE on failure.
      */
-    public function searchComments($search, $page = 1, $limit = -1)
+    public function searchComments($search, $page = 1, $limit = -1, $status = null)
     {
         $list = array();
         foreach ($this->db as $key => $value) {
+            if ($status !== null && (!isset($value["status"]) || $value["status"] !== $status)) {
+                continue;
+            }
             if (isset($value["title"]) && stripos($value["title"], $search) !== false) {
                 $list[] = $key;
             } else if (isset($value["excerpt"]) && stripos($value["excerpt"], $search) !== false) {

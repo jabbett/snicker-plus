@@ -610,7 +610,7 @@ class SnickerPlugin extends Plugin
      */
     public function beforeAdminLoad()
     {
-        global $url;
+        global $layout, $url;
 
         // Check if the current View is the "snicker"
         if (strpos($url->slug(), "snicker") !== 0) {
@@ -625,6 +625,42 @@ class SnickerPlugin extends Plugin
         } else {
             $this->backendView = "index";
         }
+
+        // Render Snicker inside Bludit's normal admin theme shell.
+        $layout["plugin"] = $this;
+        $layout["view"] = "plugin-snicker";
+        $layout["title"] = "Snicker Comments - " . $layout["title"];
+    }
+
+    /*
+     |  HOOK :: ADMIN CONTROLLER
+     |  @since  1.0.1
+     */
+    public function adminController()
+    {
+        global $layout;
+
+        $layout["view"] = "plugin-snicker";
+    }
+
+    /*
+     |  HOOK :: ADMIN VIEW
+     |  @since  1.0.1
+     */
+    public function adminView()
+    {
+        if (!$this->backend || !$this->backendView) {
+            return false;
+        }
+
+        $file = SNICKER_PATH . "admin" . DS . "{$this->backendView}.php";
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        ob_start();
+        require $file;
+        return ob_get_clean();
     }
 
     /*
@@ -709,10 +745,7 @@ class SnickerPlugin extends Plugin
      */
     public function adminBodyBegin()
     {
-        if (!$this->backend || !$this->backendView) {
-            return false;
-        }
-        ob_start();
+        return false;
     }
 
     /*
@@ -757,24 +790,7 @@ class SnickerPlugin extends Plugin
             return false;
         }
 
-        // Fetch Content
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        // Snicker Admin Content
-        ob_start();
-        if (file_exists(SNICKER_PATH . "admin" . DS . "{$this->backendView}.php")) {
-            require SNICKER_PATH . "admin" . DS . "{$this->backendView}.php";
-            $add = ob_get_contents();
-        }
-        ob_end_clean();
-
-        // Inject Code
-        if (isset($add) && !empty($add)) {
-            $regexp = "#(\<div class=\"col-lg-10 pt-3 pb-1 h-100\"\>)(.*?)(\<\/div\>)#s";
-            $content = preg_replace($regexp, "$1{$add}$3", $content);
-        }
-        print ($content);
+        return false;
     }
 
     /*
@@ -791,7 +807,7 @@ class SnickerPlugin extends Plugin
         ob_start();
         ?>
         <a href="<?php echo HTML_PATH_ADMIN_ROOT; ?>snicker" class="nav-link" style="white-space: nowrap;">
-            <span class="oi oi-comment-square"></span>Snicker <?php sn_e("Comments"); ?>
+            <span class="fa fa-comments-o"></span>Snicker <?php sn_e("Comments"); ?>
             <?php if (!empty($count)) { ?>
                 <span class="badge badge-success badge-pill"><?php echo $count; ?></span>
             <?php } ?>
